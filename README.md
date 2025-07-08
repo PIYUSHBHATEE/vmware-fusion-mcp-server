@@ -1,0 +1,1 @@
+# vmware-fusion-mcp-server
