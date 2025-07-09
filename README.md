@@ -77,7 +77,7 @@ These must be set in your shell, in your VS Code MCP config, or in your deployme
   "mcpServers": {
     "vmware-fusion": {
       "command": "uvx",
-      "args": ["run", "vmware-fusion-mcp-server"],
+      "args": ["vmware-fusion-mcp-server"],
       "env": {
         "VMREST_USER": "your-username",
         "VMREST_PASS": "your-password"
