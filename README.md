@@ -1,5 +1,10 @@
 # VMware Fusion MCP Server
 
+<div align="center" id="top">
+  <img src="https://github.com/user-attachments/assets/98b273c5-9ba6-4d21-a9b7-3bc7a86e3ea4" width=150 height=150 alt="agentman"></img>
+</div>
+</p>
+
 <p align="center">
 <a href="https://pypi.org/project/vmware-fusion-mcp-server/"><img src="https://img.shields.io/pypi/v/vmware-fusion-mcp-server?color=%2334D058&label=pypi" alt="PyPI version" /></a>
 <a href="https://pypi.org/project/vmware-fusion-mcp-server/"><img src="https://img.shields.io/pypi/pyversions/vmware-fusion-mcp-server.svg?color=brightgreen" alt="Python versions" /></a>
