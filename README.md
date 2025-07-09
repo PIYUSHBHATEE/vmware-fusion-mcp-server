@@ -1,5 +1,13 @@
 # VMware Fusion MCP Server
 
+<p align="center">
+<a href="https://pypi.org/project/vmware-fusion-mcp-server/"><img src="https://img.shields.io/pypi/v/vmware-fusion-mcp-server?color=%2334D058&label=pypi" alt="PyPI version" /></a>
+<a href="https://pypi.org/project/vmware-fusion-mcp-server/"><img src="https://img.shields.io/pypi/pyversions/vmware-fusion-mcp-server.svg?color=brightgreen" alt="Python versions" /></a>
+<a href="https://github.com/yeahdongcn/vmware-fusion-mcp-server/issues"><img src="https://img.shields.io/github/issues-raw/yeahdongcn/vmware-fusion-mcp-server" alt="GitHub Issues" /></a>
+<a href="https://pepy.tech/projects/vmware-fusion-mcp-server"><img alt="Pepy Total Downloads" src="https://img.shields.io/pepy/dt/vmware-fusion-mcp-server?label=pypi%20%7C%20downloads&color=brightgreen"/></a>
+<a href="https://github.com/yeahdongcn/vmware-fusion-mcp-server/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/vmware-fusion-mcp-server?color=brightgreen" alt="License" /></a>
+</p>
+
 A Model Context Protocol (MCP) server for managing VMware Fusion virtual machines via the Fusion REST API, built with [FastMCP](https://github.com/jlowin/fastmcp).
 
 ---
@@ -17,7 +25,7 @@ A Model Context Protocol (MCP) server for managing VMware Fusion virtual machine
 ## Prerequisites
 
 - **VMware Fusion Pro** (with REST API enabled)
-- **Python 3.12+**
+- **Python 3.10+**
 - **[uv](https://github.com/astral-sh/uv)** (recommended) or pip
 - **[uvx](https://github.com/modelcontextprotocol/uvx)** (for VS Code/LLM integration)
 
