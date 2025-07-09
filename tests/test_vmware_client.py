@@ -170,18 +170,18 @@ async def test_vmware_client_http_error():
 # Integration tests
 # --------------------
 
-REAL_ENV_SKIP = not all(
+INTEGRATION_ENV_SKIP = not all(
     os.environ.get(k) for k in ["VMREST_USER", "VMREST_PASS"]
 )
 
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    REAL_ENV_SKIP,
-    reason="VMREST_USER and VMREST_PASS must be set for real server tests.",
+    INTEGRATION_ENV_SKIP,
+    reason="VMREST_USER and VMREST_PASS must be set for integration server tests.",
 )
-async def test_vmware_client_list_vms_real():
-    """Integration: Test list_vms against real vmrest server."""
+async def test_vmware_client_list_vms_integration():
+    """Integration: Test list_vms against integration vmrest server."""
     url = os.environ.get("VMREST_URL", "http://localhost:8697")
     client = VMwareClient(
         url, os.environ["VMREST_USER"], os.environ["VMREST_PASS"]
@@ -195,11 +195,11 @@ async def test_vmware_client_list_vms_real():
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    REAL_ENV_SKIP,
-    reason="VMREST_USER and VMREST_PASS must be set for real server tests.",
+    INTEGRATION_ENV_SKIP,
+    reason="VMREST_USER and VMREST_PASS must be set for integration server tests.",
 )
-async def test_vmware_client_get_vm_info_real():
-    """Integration: Test get_vm_info against real vmrest server."""
+async def test_vmware_client_get_vm_info_integration():
+    """Integration: Test get_vm_info against integration vmrest server."""
     url = os.environ.get("VMREST_URL", "http://localhost:8697")
     client = VMwareClient(
         url, os.environ["VMREST_USER"], os.environ["VMREST_PASS"]
@@ -207,7 +207,7 @@ async def test_vmware_client_get_vm_info_real():
     async with client:
         vms = await client.list_vms()
         if not vms:
-            pytest.skip("No VMs available on real server.")
+            pytest.skip("No VMs available on integration server.")
         vm_id = vms[0]["id"]
         vm_password = os.environ.get("VMREST_VM_PASSWORD")
         try:
@@ -229,11 +229,11 @@ async def test_vmware_client_get_vm_info_real():
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    REAL_ENV_SKIP,
-    reason="VMREST_USER and VMREST_PASS must be set for real server tests.",
+    INTEGRATION_ENV_SKIP,
+    reason="VMREST_USER and VMREST_PASS must be set for integration server tests.",
 )
-async def test_vmware_client_power_vm_real():
-    """Integration: Test power_vm (no-op) against real vmrest server."""
+async def test_vmware_client_power_vm_integration():
+    """Integration: Test power_vm (no-op) against integration vmrest server."""
     url = os.environ.get("VMREST_URL", "http://localhost:8697")
     client = VMwareClient(
         url, os.environ["VMREST_USER"], os.environ["VMREST_PASS"]
@@ -241,7 +241,7 @@ async def test_vmware_client_power_vm_real():
     async with client:
         vms = await client.list_vms()
         if not vms:
-            pytest.skip("No VMs available on real server.")
+            pytest.skip("No VMs available on integration server.")
         vm_id = vms[0]["id"]
         vm_password = os.environ.get("VMREST_VM_PASSWORD")
         try:
@@ -264,11 +264,11 @@ async def test_vmware_client_power_vm_real():
 
 @pytest.mark.asyncio
 @pytest.mark.skipif(
-    REAL_ENV_SKIP,
-    reason="VMREST_USER and VMREST_PASS must be set for real server tests.",
+    INTEGRATION_ENV_SKIP,
+    reason="VMREST_USER and VMREST_PASS must be set for integration server tests.",
 )
-async def test_vmware_client_get_vm_power_state_real():
-    """Integration: Test get_vm_power_state against real vmrest server."""
+async def test_vmware_client_get_vm_power_state_integration():
+    """Integration: Test get_vm_power_state against integration vmrest server."""
     url = os.environ.get("VMREST_URL", "http://localhost:8697")
     client = VMwareClient(
         url, os.environ["VMREST_USER"], os.environ["VMREST_PASS"]
@@ -276,7 +276,7 @@ async def test_vmware_client_get_vm_power_state_real():
     async with client:
         vms = await client.list_vms()
         if not vms:
-            pytest.skip("No VMs available on real server.")
+            pytest.skip("No VMs available on integration server.")
         vm_id = vms[0]["id"]
         vm_password = os.environ.get("VMREST_VM_PASSWORD")
         try:

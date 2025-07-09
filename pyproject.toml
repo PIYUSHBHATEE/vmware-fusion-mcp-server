@@ -1,6 +1,6 @@
 [project]
 name = "vmware-fusion-mcp-server"
-version = "0.1.4"
+version = "0.1.5"
 description = "A MCP server for managing VMware Fusion VMs via REST API"
 readme = "README.md"
 license = "MIT"

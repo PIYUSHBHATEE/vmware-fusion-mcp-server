@@ -39,7 +39,7 @@ async def get_vm_info(vm_id: str) -> Dict[str, Any]:
 
 
 async def _power_vm_impl(vm_id: str, action: str) -> Dict[str, Any]:
-    """Perform a power action on a VM."""
+    """Perform a power action on a VM. Valid actions are 'on', 'off', 'shutdown', 'suspend', 'pause', 'unpause'."""
     async with VMwareClient(username=VMREST_USER, password=VMREST_PASS) as client:
         result = await client.power_vm(vm_id, action)
         return result  # type: ignore[no-any-return]
@@ -47,7 +47,7 @@ async def _power_vm_impl(vm_id: str, action: str) -> Dict[str, Any]:
 
 @mcp.tool
 async def power_vm(vm_id: str, action: str) -> Dict[str, Any]:
-    """Perform a power action on a VM."""
+    """Perform a power action on a VM. Valid actions are 'on', 'off', 'shutdown', 'suspend', 'pause', 'unpause'."""
     return await _power_vm_impl(vm_id, action)
 
 

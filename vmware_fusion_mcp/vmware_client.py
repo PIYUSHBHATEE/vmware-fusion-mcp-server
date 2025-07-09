@@ -116,13 +116,13 @@ class VMwareClient:
 
         Args:
             vm_id: The ID of the VM
-            action: Power action (on, off, suspend, pause, unpause, reset)
+            action: Power action (on, off, shutdown, suspend, pause, unpause)
             vm_password: The password for the VM (if required)
 
         Returns:
             Dictionary with the result of the power action
         """
-        valid_actions = ["on", "off", "suspend", "pause", "unpause", "reset"]
+        valid_actions = ["on", "off", "shutdown", "suspend", "pause", "unpause"]
         if action not in valid_actions:
             raise ValueError(
                 f"Invalid action '{action}'. Valid actions: {valid_actions}"
