@@ -1,14 +1,12 @@
 [project]
 name = "vmware-fusion-mcp-server"
-version = "0.1.0"
-description = "A FastMCP server for managing VMware Fusion VMs via REST API"
+version = "0.1.2"
+description = "A MCP server for managing VMware Fusion VMs via REST API"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "mcp>=1.0.0",
-    "httpx>=0.27.0",
-    "uvicorn>=0.30.0",
-    "pydantic>=2.5.0"
+    "fastmcp>=2.10.3",
+    "httpx>=0.28.1",
 ]
 
 [project.optional-dependencies]
@@ -21,7 +19,7 @@ dev = [
 ]
 
 [project.scripts]
-vmware-fusion-mcp = "vmware_fusion_mcp.server:cli_main"
+vmware-fusion-mcp-server = "vmware_fusion_mcp.server:main"
 
 [build-system]
 requires = ["hatchling"]

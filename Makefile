@@ -1,43 +1,29 @@
-.PHONY: env run test lint fmt clean help
+.PHONY: help env dev clean run debug test lint fmt publish
 
 # Default target
 help:
 	@echo "Available targets:"
-	@echo "  env    - Create/activate virtual environment and install dependencies"
-	@echo "  run    - Start the MCP server"
-	@echo "  test   - Run unit tests"
-	@echo "  lint   - Run flake8 linting"
-	@echo "  fmt    - Format code with black"
-	@echo "  clean  - Clean up temporary files and caches"
-	@echo "  help   - Show this help message"
+	@echo "  env      - Create/activate virtual environment and install main dependencies"
+	@echo "  dev      - Install main and development dependencies"
+	@echo "  clean    - Clean up temporary files and caches"
+	@echo "  run      - Start the MCP server"
+	@echo "  debug    - Start the MCP server in debug mode"
+	@echo "  test     - Run unit tests (dev env)"
+	@echo "  lint     - Run flake8 and mypy (dev env)"
+	@echo "  fmt      - Format code with black (dev env)"
+	@echo "  publish  - Build and publish wheel to PyPI using uv build && uv publish"
+	@echo "  help     - Show this help message"
 
-# Create virtual environment and install dependencies
+# Create virtual environment and install main dependencies
 env:
 	@echo "Setting up environment with uv..."
 	uv sync
 	@echo "Environment ready! Activate with: source .venv/bin/activate"
 
-# Start the MCP server
-run:
-	@echo "Starting VMware Fusion MCP Server..."
-	uv run python -m vmware_fusion_mcp.server
-
-# Run tests
-test:
-	@echo "Running tests..."
-	uv run pytest tests/ -v
-
-# Run linting
-lint:
-	@echo "Running flake8..."
-	uv run flake8 vmware_fusion_mcp/ tests/
-	@echo "Running mypy..."
-	uv run mypy vmware_fusion_mcp/
-
-# Format code
-fmt:
-	@echo "Formatting code with black..."
-	uv run black vmware_fusion_mcp/ tests/
+# Install for development (main + dev dependencies)
+dev: env
+	@echo "Installing main and development dependencies..."
+	uv sync --extra dev
 
 # Clean up
 clean:
@@ -51,12 +37,35 @@ clean:
 	find . -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
 	@echo "Cleanup complete!"
 
-# Install for development
-dev: env
-	@echo "Installing development dependencies..."
-	uv sync --dev
+# Start the MCP server
+run: env
+	@echo "Starting VMware Fusion MCP Server..."
+	uv run python -m vmware_fusion_mcp.server
 
 # Run the server with debug output
-debug:
+debug: env
 	@echo "Starting VMware Fusion MCP Server in debug mode..."
 	uv run python -m vmware_fusion_mcp.server --debug
+
+# Run tests
+test: dev
+	@echo "Running tests..."
+	uv run pytest tests/ -v
+
+# Run linting
+lint: dev
+	@echo "Running flake8..."
+	uv run flake8 vmware_fusion_mcp/ tests/
+	@echo "Running mypy..."
+	uv run mypy vmware_fusion_mcp/
+
+# Format code
+fmt: dev
+	@echo "Formatting code with black..."
+	uv run black vmware_fusion_mcp/ tests/
+
+# Publish to PyPI
+publish: env
+	rm -rf dist
+	uv build
+	uv publish

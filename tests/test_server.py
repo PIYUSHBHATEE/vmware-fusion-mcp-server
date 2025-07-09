@@ -2,112 +2,74 @@
 
 import pytest
 from unittest.mock import patch, AsyncMock
-
 from vmware_fusion_mcp.server import (
-    handle_list_vms,
-    handle_get_vm_info,
-    handle_power_vm,
-    handle_list_tools,
-    handle_call_tool,
+    _list_vms_impl,
+    _get_vm_info_impl,
+    _power_vm_impl,
+    _get_vm_power_state_impl,
+    mcp,
 )
+from fastmcp import Client
 
 
 @pytest.mark.asyncio
-async def test_handle_list_tools():
-    """Test that list_tools returns the expected tools."""
-    result = await handle_list_tools()
-
-    assert len(result.tools) == 3
-    tool_names = [tool.name for tool in result.tools]
-    assert "list_vms" in tool_names
-    assert "get_vm_info" in tool_names
-    assert "power_vm" in tool_names
-
-
-@pytest.mark.asyncio
-@patch("vmware_fusion_mcp.server.get_vmware_client")
-async def test_handle_list_vms(mock_get_client, mock_vmware_client):
-    """Test list_vms tool."""
-    mock_get_client.return_value.__aenter__.return_value = mock_vmware_client
-
-    result = await handle_list_vms()
-
-    assert not result.isError
-    assert "VMware Fusion VMs:" in result.content[0].text
-    assert (
-        result.structuredContent["vms"]
-        == mock_vmware_client.list_vms.return_value
-    )
+async def test_list_vms_tool():
+    with patch("vmware_fusion_mcp.server.VMwareClient") as mock_client_cls:
+        mock_client = AsyncMock()
+        mock_client_cls.return_value.__aenter__.return_value = mock_client
+        mock_client.list_vms.return_value = [
+            {"id": "vm1", "path": "/path/to/vm1"}
+        ]
+        result = await _list_vms_impl()
+        assert "vms" in result
+        assert result["vms"][0]["id"] == "vm1"
 
 
 @pytest.mark.asyncio
-@patch("vmware_fusion_mcp.server.get_vmware_client")
-async def test_handle_get_vm_info(mock_get_client, mock_vmware_client):
-    """Test get_vm_info tool."""
-    mock_get_client.return_value.__aenter__.return_value = mock_vmware_client
-
-    result = await handle_get_vm_info("vm1")
-
-    assert not result.isError
-    assert "VM Information for ID: vm1" in result.content[0].text
-    assert (
-        result.structuredContent == mock_vmware_client.get_vm_info.return_value
-    )
+async def test_get_vm_info_tool():
+    with patch("vmware_fusion_mcp.server.VMwareClient") as mock_client_cls:
+        mock_client = AsyncMock()
+        mock_client_cls.return_value.__aenter__.return_value = mock_client
+        mock_client.get_vm_info.return_value = {"id": "vm1", "cpu": {}}
+        result = await _get_vm_info_impl("vm1")
+        assert result["id"] == "vm1"
 
 
 @pytest.mark.asyncio
-@patch("vmware_fusion_mcp.server.get_vmware_client")
-async def test_handle_power_vm(mock_get_client, mock_vmware_client):
-    """Test power_vm tool."""
-    mock_get_client.return_value.__aenter__.return_value = mock_vmware_client
-
-    result = await handle_power_vm("vm1", "on")
-
-    assert not result.isError
-    assert (
-        "Successfully performed 'on' action on VM vm1"
-        in result.content[0].text
-    )
-    assert result.structuredContent == mock_vmware_client.power_vm.return_value
+async def test_power_vm_tool():
+    with patch("vmware_fusion_mcp.server.VMwareClient") as mock_client_cls:
+        mock_client = AsyncMock()
+        mock_client_cls.return_value.__aenter__.return_value = mock_client
+        mock_client.power_vm.return_value = {"status": "success"}
+        result = await _power_vm_impl("vm1", "on")
+        assert result["status"] == "success"
 
 
 @pytest.mark.asyncio
-async def test_handle_call_tool_list_vms():
-    """Test call_tool with list_vms."""
-    with patch("vmware_fusion_mcp.server.handle_list_vms") as mock_handle:
-        mock_handle.return_value = AsyncMock()
-
-        await handle_call_tool("list_vms", {})
-
-        mock_handle.assert_called_once()
-
-
-@pytest.mark.asyncio
-async def test_handle_call_tool_get_vm_info():
-    """Test call_tool with get_vm_info."""
-    with patch("vmware_fusion_mcp.server.handle_get_vm_info") as mock_handle:
-        mock_handle.return_value = AsyncMock()
-
-        await handle_call_tool("get_vm_info", {"vm_id": "vm1"})
-
-        mock_handle.assert_called_once_with("vm1")
+async def test_get_vm_power_state_tool():
+    with patch("vmware_fusion_mcp.server.VMwareClient") as mock_client_cls:
+        mock_client = AsyncMock()
+        mock_client_cls.return_value.__aenter__.return_value = mock_client
+        mock_client.get_vm_power_state.return_value = {"powerState": "on"}
+        result = await _get_vm_power_state_impl("vm1")
+        assert result["powerState"] == "on"
 
 
 @pytest.mark.asyncio
-async def test_handle_call_tool_power_vm():
-    """Test call_tool with power_vm."""
-    with patch("vmware_fusion_mcp.server.handle_power_vm") as mock_handle:
-        mock_handle.return_value = AsyncMock()
-
-        await handle_call_tool("power_vm", {"vm_id": "vm1", "action": "on"})
-
-        mock_handle.assert_called_once_with("vm1", "on")
-
-
-@pytest.mark.asyncio
-async def test_handle_call_tool_unknown():
-    """Test call_tool with unknown tool."""
-    result = await handle_call_tool("unknown_tool", {})
-
-    assert result.isError
-    assert "Unknown tool: unknown_tool" in result.content[0].text
+async def test_fastmcp_client_tools():
+    async with Client(mcp) as client:
+        tools = await client.list_tools()
+        tool_names = [t.name for t in tools]
+        assert set(tool_names) >= {
+            "list_vms",
+            "get_vm_info",
+            "power_vm",
+            "get_vm_power_state",
+        }
+        # Test call_tool (mocked)
+        with patch("vmware_fusion_mcp.server.VMwareClient") as mock_client_cls:
+            mock_client = AsyncMock()
+            mock_client_cls.return_value.__aenter__.return_value = mock_client
+            mock_client.list_vms.return_value = [{"id": "vm1"}]
+            result = await client.call_tool("list_vms", {})
+            assert "vms" in result.structured_content
