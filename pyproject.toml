@@ -1,14 +1,43 @@
 [project]
 name = "vmware-fusion-mcp-server"
-version = "0.1.3"
+version = "0.1.4"
 description = "A MCP server for managing VMware Fusion VMs via REST API"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+authors = [
+    { name = "Xiaodong Ye", email = "yeahdongcn@gmail.com" },
+]
+maintainers = [
+    { name = "Xiaodong Ye", email = "yeahdongcn@gmail.com" },
+]
+keywords = ["ai", "agents", "mcp", "model-context-protocol", "vmware", "fusion", "automation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
 requires-python = ">=3.10"
 dependencies = [
     "fastmcp>=2.10.3",
     "httpx>=0.28.1",
 ]
+
+[project.urls]
+Homepage = "https://github.com/yeahdongcn/vmware-fusion-mcp-server"
+Documentation = "https://github.com/yeahdongcn/vmware-fusion-mcp-server#readme"
+Repository = "https://github.com/yeahdongcn/vmware-fusion-mcp-server.git"
+Issues = "https://github.com/yeahdongcn/vmware-fusion-mcp-server/issues"
+Changelog = "https://github.com/yeahdongcn/vmware-fusion-mcp-server/releases"
 
 [project.optional-dependencies]
 dev = [

@@ -1,3 +1,3 @@
 """VMware Fusion MCP Server - FastMCP server for managing VMware Fusion VMs."""
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
