@@ -15,6 +15,10 @@
 
 A Model Context Protocol (MCP) server for managing VMware Fusion virtual machines via the Fusion REST API, built with [FastMCP](https://github.com/jlowin/fastmcp).
 
+<p align="center">
+<img alt="Repobeats analytics image" src="https://repobeats.axiom.co/api/embed/294cd9e557650e0f6a9fd65777e44490127a5bd3.svg" />
+</p>
+
 ---
 
 ## Features
