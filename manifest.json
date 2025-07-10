@@ -1,0 +1,53 @@
+{
+  "dxt_version": "0.1",
+  "name": "vmware-fusion-mcp-server",
+  "display_name": "VMware Fusion MCP Server",
+  "version": "0.1.5",
+  "description": "A MCP server for managing VMware Fusion VMs via REST API",
+  "author": {
+    "name": "Xiaodong Ye",
+    "email": "yeahdongcn@gmail.com"
+  },
+  "icon": "assets/fusion.png",
+  "server": {
+    "type": "python",
+    "entry_point": "vmware_fusion_mcp/server.py",
+    "mcp_config": {
+      "command": "python",
+      "args": [
+        "${__dirname}/vmware_fusion_mcp/server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "server/lib"
+      }
+    }
+  },
+  "compatibility": {},
+  "user_config": {
+    "VMREST_USER": {
+      "type": "string",
+      "title": "Username configured for vmrest",
+      "description": "Username configured for vmrest",
+      "required": true,
+      "sensitive": false
+    },
+    "VMREST_PASS": {
+      "type": "string",
+      "title": "Password configured for vmrest",
+      "description": "Password configured for vmrest",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "keywords": [
+    "mcp",
+    "vmware",
+    "fusion",
+    "vm"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yeahdongcn/vmware-fusion-mcp-server"
+  }
+}
