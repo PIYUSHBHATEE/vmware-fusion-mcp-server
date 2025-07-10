@@ -25,6 +25,8 @@ A Model Context Protocol (MCP) server for managing VMware Fusion virtual machine
 
 ## Features
 
+ [![Demo](https://img.youtube.com/vi/ToiPQwEWK5E/0.jpg)](https://www.youtube.com/watch?v=ToiPQwEWK5E)
+
 - **List VMs**: View all VMs registered in VMware Fusion.
 - **Get VM Info**: Retrieve detailed information about a specific VM.
 - **Power Operations**: Perform power actions (on, off, suspend, pause, unpause, reset) on a VM.
