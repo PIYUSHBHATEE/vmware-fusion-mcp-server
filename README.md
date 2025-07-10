@@ -13,6 +13,8 @@
 <a href="https://github.com/yeahdongcn/vmware-fusion-mcp-server/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/vmware-fusion-mcp-server?color=brightgreen" alt="License" /></a>
 </p>
 
+---
+
 A Model Context Protocol (MCP) server for managing VMware Fusion virtual machines via the Fusion REST API, built with [FastMCP](https://github.com/jlowin/fastmcp).
 
 <p align="center">
